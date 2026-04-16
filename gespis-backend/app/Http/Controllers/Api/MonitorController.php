@@ -7,22 +7,11 @@ use App\Models\Monitor;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
-/**
- * MonitorController
- *
- * Equivalente a MonitoresDB.java del proyecto Java.
- *
- *  GET    /api/monitores          → index   (listar / buscar)
- *  POST   /api/monitores          → store   (nuevo monitor)
- *  GET    /api/monitores/{dni}    → show    (detalle)
- *  PUT    /api/monitores/{dni}    → update  (modificar)
- *  DELETE /api/monitores/{dni}    → destroy (eliminar)
- */
+
 class MonitorController extends Controller
 {
     // ── GET /api/monitores  ───────────────────────────────────────
-    // Lista todos los monitores. Si viene ?q=xxx filtra por nombre, apellido o DNI.
-    // Se usa también para rellenar el <select> de CursoForm.
+
     public function index(Request $request): JsonResponse
     {
         $query = Monitor::withCount('cursosPrincipales');  // nº de cursos como responsable
@@ -41,7 +30,7 @@ class MonitorController extends Controller
     }
 
     // ── POST /api/monitores  ──────────────────────────────────────
-    // Equivale a MonitoresDB.insertarMonitor() del Java.
+
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
@@ -72,7 +61,7 @@ class MonitorController extends Controller
 
     // ── GET /api/monitores/{dni}  ─────────────────────────────────
     // Devuelve el monitor con todos sus cursos.
-    // Equivale al bloque de búsqueda de PanelBuscarMonitor.java.
+
     public function show(string $dni): JsonResponse
     {
         $monitor = Monitor::with([
@@ -87,8 +76,7 @@ class MonitorController extends Controller
     }
 
     // ── PUT /api/monitores/{dni}  ─────────────────────────────────
-    // Equivale a MonitoresDB.actualizarMonitor() del Java.
-    // El DNI es PK y no se puede cambiar (igual que en el Java).
+
     public function update(Request $request, string $dni): JsonResponse
     {
         $monitor = Monitor::findOrFail($dni);
@@ -113,7 +101,6 @@ class MonitorController extends Controller
     }
 
     // ── DELETE /api/monitores/{dni}  ──────────────────────────────
-    // Equivale a MonitoresDB.eliminarMonitor() del Java.
     // Gracias a onDelete('set null') en la migración de cursos,
     // los cursos del monitor no se borran, solo quedan sin monitor asignado.
     public function destroy(string $dni): JsonResponse

@@ -8,27 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
-/**
- * CursoController
- *
- * Equivalente a CursosDB.java del proyecto Java.
- * Cada método del Java se convierte en un endpoint REST:
- *
- *  insertarCurso()   → POST   /api/cursos          (store)
- *  buscarCursos()    → GET    /api/cursos?q=...     (index)
- *  actualizarCurso() → PUT    /api/cursos/{codigo}  (update)
- *  eliminarCurso()   → DELETE /api/cursos/{codigo}  (destroy)
- *                      GET    /api/cursos/{codigo}  (show)
- */
+
 class CursoController extends Controller
 {
     // ── GET /api/cursos  ──────────────────────────────────────────
-    // Equivale a buscarCursos() del Java. Si viene ?q=xxx filtra,
-    // si no devuelve todos los cursos con su monitor y nº de inscritos.
+
     public function index(Request $request): JsonResponse
     {
         $query = Curso::with(['monitor:dni,nombre,apellido1', 'usuarios:dni'])
-                      ->withCount('usuarios');   // añade usuarios_count al JSON
+                      ->withCount('usuarios');   
 
         if ($request->filled('q')) {
             $patron = '%' . $request->q . '%';
@@ -42,7 +30,7 @@ class CursoController extends Controller
     }
 
     // ── POST /api/cursos  ─────────────────────────────────────────
-    // Equivale a insertarCurso() + la inserción en curso_monitor del Java.
+    
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
@@ -69,13 +57,13 @@ class CursoController extends Controller
 
         return response()->json(
             $curso->load('monitor:dni,nombre,apellido1'),
-            201   // HTTP 201 Created
+            201 
         );
     }
 
     // ── GET /api/cursos/{codigo}  ─────────────────────────────────
     // Devuelve un curso con todos sus datos: monitor + lista de inscritos.
-    // Equivale al bloque de búsqueda individual del Java.
+    
     public function show(string $codigo): JsonResponse
     {
         $curso = Curso::with([
@@ -92,7 +80,7 @@ class CursoController extends Controller
     }
 
     // ── PUT /api/cursos/{codigo}  ─────────────────────────────────
-    // Equivale a actualizarCurso() del Java (UPDATE + borrar y rehacer inscripciones).
+    
     public function update(Request $request, string $codigo): JsonResponse
     {
         $curso = Curso::findOrFail($codigo);
@@ -112,7 +100,6 @@ class CursoController extends Controller
         $curso->update($data);
 
         // Sincronizar usuarios inscritos si vienen en el body
-        // sync() borra y vuelve a insertar, igual que el Java:
         //   DELETE FROM curso_usuario + INSERT...
         if ($request->has('usuarios')) {
             $curso->usuarios()->sync($request->usuarios);
@@ -129,9 +116,7 @@ class CursoController extends Controller
     }
 
     // ── DELETE /api/cursos/{codigo}  ──────────────────────────────
-    // Equivale a eliminarCurso() del Java.
-    // Las FK con onDelete('cascade') en la migración ya borran
-    // curso_usuario y curso_monitor automáticamente — no hay que hacerlo a mano.
+    // curso_usuario y curso_monitor automáticamente —
     public function destroy(string $codigo): JsonResponse
     {
         $curso = Curso::findOrFail($codigo);

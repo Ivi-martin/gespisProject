@@ -8,21 +8,7 @@ use App\Models\Curso;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
-/**
- * UsuarioController
- *
- * Equivalente a UsuariosDB.java del proyecto Java.
- *
- *  GET    /api/usuarios              → index   (listar / buscar)
- *  POST   /api/usuarios              → store   (nuevo usuario)
- *  GET    /api/usuarios/{dni}        → show    (detalle + cursos inscritos)
- *  PUT    /api/usuarios/{dni}        → update  (modificar)
- *  DELETE /api/usuarios/{dni}        → destroy (eliminar)
- *
- *  Además, dos endpoints de inscripción (lógica de inscribirUsuario / darDeBaja del Java):
- *  POST   /api/usuarios/{dni}/inscribir/{codigo}  → inscribir en un curso
- *  DELETE /api/usuarios/{dni}/inscribir/{codigo}  → dar de baja de un curso
- */
+
 class UsuarioController extends Controller
 {
     // ── GET /api/usuarios  ────────────────────────────────────────
@@ -44,7 +30,7 @@ class UsuarioController extends Controller
     }
 
     // ── POST /api/usuarios  ───────────────────────────────────────
-    // Equivale a UsuariosDB.insertarUsuario() del Java.
+
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
@@ -86,7 +72,7 @@ class UsuarioController extends Controller
     }
 
     // ── PUT /api/usuarios/{dni}  ──────────────────────────────────
-    // Equivale a UsuariosDB.actualizarUsuario() del Java.
+
     public function update(Request $request, string $dni): JsonResponse
     {
         $usuario = Usuario::findOrFail($dni);
@@ -107,7 +93,6 @@ class UsuarioController extends Controller
     }
 
     // ── DELETE /api/usuarios/{dni}  ───────────────────────────────
-    // Equivale a UsuariosDB.eliminarUsuario() del Java.
     // El cascade de la migración borra automáticamente sus filas en curso_usuario.
     public function destroy(string $dni): JsonResponse
     {
@@ -121,10 +106,7 @@ class UsuarioController extends Controller
     }
 
     // ── POST /api/usuarios/{dni}/inscribir/{codigo}  ──────────────
-    // Equivale a inscribirUsuario() de GesCursos.java.
-    // Esta lógica en el Java estaba repartida entre el modelo y la vista;
-    // aquí la centralizamos en el controller para que el frontend
-    // solo tenga que hacer un POST y recibir éxito o error.
+
     public function inscribir(string $dni, string $codigo): JsonResponse
     {
         $usuario = Usuario::findOrFail($dni);
@@ -137,7 +119,7 @@ class UsuarioController extends Controller
             ], 422);
         }
 
-        // Comprobación 2: ¿quedan plazas? (aforoMax del Java)
+        // Comprobación 2: ¿quedan plazas? 
         if (!$curso->puedeInscribir($dni)) {
             return response()->json([
                 'message' => "El curso \"{$curso->nombrec}\" está completo (aforo: {$curso->aforomax})."
@@ -154,7 +136,7 @@ class UsuarioController extends Controller
     }
 
     // ── DELETE /api/usuarios/{dni}/inscribir/{codigo}  ────────────
-    // Equivale a darDeBaja() de GesCursos.java.
+
     public function darDeBaja(string $dni, string $codigo): JsonResponse
     {
         $usuario = Usuario::findOrFail($dni);
