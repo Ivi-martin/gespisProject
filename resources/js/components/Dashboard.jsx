@@ -14,19 +14,19 @@ const MOCK_DATA = {
       { label: 'Plazas disponibles', value: 34,  sub: 'en todos los cursos', color: 'amber'},
     ],
     accesos: [
-      { label: 'Nuevo curso',       icon: '📋', to: '/cursos/nuevo'       },
-      { label: 'Nuevo usuario',     icon: '👤', to: '/usuarios/nuevo'     },
-      { label: 'Nuevo monitor',     icon: '🏊', to: '/monitores/nuevo'    },
-      { label: 'Buscar curso',      icon: '🔍', to: '/cursos/buscar'      },
-      { label: 'Buscar usuario',    icon: '🔎', to: '/usuarios/buscar'    },
-      { label: 'Buscar monitor',    icon: '📂', to: '/monitores/buscar'   },
+      { label: 'Nuevo curso',       icon: 'cur.png', to: '/cursos/nuevo'       },
+      { label: 'Nuevo usuario',     icon: 'usu.png', to: '/usuarios/nuevo'     },
+      { label: 'Nuevo monitor',     icon: 'moni.png', to: '/monitores/nuevo'    },
+      { label: 'Buscar curso',      icon: 'buscar-curso.png', to: '/cursos/buscar'      },
+      { label: 'Buscar usuario',    icon: 'buscar-usuario.png', to: '/usuarios/buscar'    },
+      { label: 'Buscar monitor',    icon: 'buscar-Monitor.png', to: '/monitores/buscar'   },
     ],
     actividad: [
-      { tipo: 'inscripcion', texto: 'María García inscrita en Natación A1',    hora: 'hace 5 min' },
+      { tipo: 'inscripcion', texto: 'Juan Miguel García inscrito en Natación A2',    hora: 'hace 5 min' },
       { tipo: 'nuevo',       texto: 'Nuevo curso "Aquagym avanzado" creado',   hora: 'hace 1 h'   },
-      { tipo: 'baja',        texto: 'Juan López dado de baja en Waterpolo',    hora: 'hace 2 h'   },
-      { tipo: 'nuevo',       texto: 'Monitor Pedro Ruiz registrado',           hora: 'hace 3 h'   },
-      { tipo: 'inscripcion', texto: 'Ana Martín inscrita en Natación infantil',hora: 'ayer'       },
+      { tipo: 'baja',        texto: 'Jose Carlos Alfaro dado de baja en Waterpolo',    hora: 'hace 2 h'   },
+      { tipo: 'nuevo',       texto: 'Monitor Jose Luis Jiménez registrado',           hora: 'hace 3 h'   },
+      { tipo: 'inscripcion', texto: 'Miguel Díaz inscrito en Natación infantil',hora: 'ayer'       },
     ],
   },
 
@@ -97,7 +97,7 @@ export default function Dashboard({ rol = 'admin', nombreUsuario = 'Administrado
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-800">
-            Hola, {nombreUsuario} 👋
+            Hola, {nombreUsuario}
           </h1>
           <p className="text-slate-400 text-sm mt-0.5">
             {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
@@ -147,7 +147,11 @@ export default function Dashboard({ rol = 'admin', nombreUsuario = 'Administrado
                            border border-slate-100 hover:border-cyan-300
                            hover:bg-cyan-50 transition-all duration-150 text-center"
               >
-                <span className="text-xl">{acc.icon}</span>
+                <img 
+                  src={`/images/icons/${acc.icon}`} 
+                  alt={acc.label}
+                  className="w-10 h-10 object-contain transition-transform group-hover:scale-110" 
+                />
                 <span className="text-xs font-medium text-slate-600 leading-tight">
                   {acc.label}
                 </span>
@@ -194,7 +198,7 @@ function RolSwitcher({ rolActual }) {
   return (
     <div className="border border-dashed border-slate-200 rounded-2xl p-4">
       <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-        🛠 Simulador de rol (solo en desarrollo)
+        Simulador de rol (Mientras hago pruebas antes de crear el login de verdad, entonces el rol vendrá de <code className="bg-slate-100 px-1 rounded">useAuth().user.rol</code>)
       </p>
       <div className="flex gap-2">
         {['admin', 'monitor', 'usuario'].map(r => (
@@ -211,10 +215,6 @@ function RolSwitcher({ rolActual }) {
           </a>
         ))}
       </div>
-      <p className="text-xs text-slate-400 mt-3">
-        Este bloque desaparece cuando integres el login con Laravel Sanctum.
-        El rol vendrá de <code className="bg-slate-100 px-1 rounded">useAuth().user.rol</code>
-      </p>
     </div>
   );
 }

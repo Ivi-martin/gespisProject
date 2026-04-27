@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import '../css/app.css';
 
+import Welcome         from './components/Welcome';
 import Layout          from './components/layout/Layout';
 import Dashboard       from './components/Dashboard';
 import CursoForm       from './components/forms/CursoForm';
@@ -26,7 +27,10 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout />}>
+                {/* 1. RUTA RAÍZ: */}
+                <Route path="/" element={<Welcome />} />
+                {/* 2. RUTA DASHBOARD */}
+                <Route path="/dashboard" element={<Layout />}>
                     <Route index element={<Dashboard rol={rol} nombreUsuario={nombres[rol]} />} />
 
                     <Route path="cursos/nuevo"    element={<CursoForm />} />

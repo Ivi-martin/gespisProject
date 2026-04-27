@@ -4,7 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\MonitorController;
 use App\Http\Controllers\UsuarioController;
+use Inertia\Inertia;
 
+
+
+Route::get('/', function () {
+    return Inertia::render('Welcome');
+})->withoutMiddleware([\App\Http\Middleware\RedirectIfAuthenticated::class]);
 
 // ── Rutas de la API (prefijo /api) ────────────────────────────────────────
 // Route::prefix('api') agrupa las rutas bajo /api/...

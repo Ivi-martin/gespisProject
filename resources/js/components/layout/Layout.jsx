@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom';
 
-// Equivalente al JMenuBar + JFrame de Principal.java
+
 // CardLayout → React Router (cada <Panel> = una <Route>)
 
 const NAV_ITEMS = [
@@ -34,16 +34,16 @@ export default function Layout() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
 
-      {/* ── HEADER ─────────────────────────────────────────────── */}
+      {/* ── HEADER ── */}
       <header className="bg-cyan-700 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
-          {/* Logo / título — equivale al PanelSuperior.java */}
+          {/* Logo / título */}
           <div className="flex items-center gap-3">
-            <span className="text-3xl">🏊</span>
+            <img src="/images/logo1.png" alt="Logo GesPis" className="h-10 w-auto" />
             <div>
               <h1 className="text-white text-2xl font-bold tracking-tight leading-none">
-                GesPis
+                Piscina Francisco Ayala
               </h1>
               <p className="text-cyan-200 text-xs tracking-widest uppercase">
                 Gestión de Piscina
@@ -51,7 +51,7 @@ export default function Layout() {
             </div>
           </div>
 
-          {/* Menú de navegación — equivale al JMenuBar del Java */}
+          {/* Menú de navegación  */}
           <nav className="flex gap-2">
             {NAV_ITEMS.map((section) => (
               <div key={section.label} className="relative group">
@@ -61,7 +61,7 @@ export default function Layout() {
                   <span className="ml-1 text-cyan-300">▾</span>
                 </button>
 
-                {/* Dropdown — equivale a los JMenuItems */}
+                {/* Dropdown  */}
                 <div className="absolute right-0 top-full mt-1 w-44 bg-white rounded-xl
                                 shadow-xl border border-slate-100 opacity-0 invisible
                                 group-hover:opacity-100 group-hover:visible
@@ -89,12 +89,12 @@ export default function Layout() {
         </div>
       </header>
 
-      {/* ── PANEL LATERAL + CONTENIDO CENTRAL ──────────────────── */}
+      {/* ── PANEL LATERAL + CONTENIDO CENTRAL ── */}
       <div className="max-w-7xl mx-auto px-6 py-8 flex gap-6">
 
-        {/* Sidebar decorativo (equivale al panel_lateral con imágenes) */}
+        {/* Sidebar decorativo  */}
         <aside className="hidden lg:flex flex-col gap-4 w-48 shrink-0">
-          {['Natación', 'Aquagym', 'Waterpolo'].map((nombre, i) => (
+          {['Cursos', 'Noticias', 'Eventos'].map((nombre, i) => (
             <div
               key={nombre}
               className="rounded-2xl p-4 text-center text-white font-semibold text-sm shadow-md"
@@ -108,15 +108,16 @@ export default function Layout() {
           ))}
         </aside>
 
-        {/* Zona central dinámica — equivale al CardLayout de Principal.java */}
+        {/* Zona central dinámica  */}
         <main className="flex-1 min-w-0">
           <Outlet />
         </main>
       </div>
 
-      {/* ── FOOTER ─────────────────────────────────────────────── */}
+      {/* ── FOOTER ── */}
       <footer className="bg-cyan-900 text-cyan-300 text-center py-3 text-xs mt-8">
-        GesPis © {new Date().getFullYear()} — Gestión integral de instalaciones acuáticas
+        <p>GesPis - Gestión integral de instalaciones acuáticas</p>
+        <p>Aplicaciones Iván MOCA © {new Date().getFullYear()}</p>
       </footer>
     </div>
   );
