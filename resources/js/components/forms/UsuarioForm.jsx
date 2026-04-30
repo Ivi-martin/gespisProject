@@ -1,9 +1,18 @@
 import { useState } from 'react';
 import { FormField, FormCard } from './FormComponents';
 
-// Equivalente a PanelNuevoUsuario.java + MetUsuarios.java + UsuariosDB.java
-// PanelNuevoUsuario era el más largo del proyecto Java (10.000 bytes), así que
-// aquí separamos bien las secciones con <fieldset>.
+const [form, setForm] = useState({
+  nombre: "",
+  email: "",
+  rol: "usuario"
+});
+
+const handleChange = (e) => {
+  setForm({
+    ...form,
+    [e.target.name]: e.target.value
+  });
+};
 
 const INITIAL_STATE = {
   dni:              '',

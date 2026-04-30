@@ -1,6 +1,5 @@
 /**
  * ConfirmModal — diálogo de confirmación antes de eliminar.
- * Equivale a los JOptionPane.showConfirmDialog() del proyecto Java.
  * Se reutiliza en CursosBuscar, UsuariosBuscar y MonitoresBuscar.
  */
 export default function ConfirmModal({ isOpen, title, message, onConfirm, onCancel, loading }) {
